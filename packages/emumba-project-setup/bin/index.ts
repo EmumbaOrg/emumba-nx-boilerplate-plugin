@@ -190,7 +190,7 @@ async function main() {
 
     // TODO: update below to customize the workspace
     const { directory } = await createWorkspace(
-      `@emumba-com/nx-plugin@${presetVersion}`,
+      `@emumbaorg/nx-plugin@${presetVersion}`,
       {
         name,
         buildTool,

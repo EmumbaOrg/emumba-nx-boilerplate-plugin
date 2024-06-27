@@ -1,5 +1,5 @@
 {
-  "name": "@emumba-com/nx-project-setup",
+  "name": "@emumbaorg/nx-project-setup",
   "version": "0.0.1",
   "dependencies": {
     "create-nx-workspace": "^18.0.5"
