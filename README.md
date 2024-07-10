@@ -16,21 +16,22 @@ The Emumba Plugin is a CLI tool designed to simplify the process of creating new
 
 ## Installation & Setup
 
-1. Clone the Emumba Plugin repository from Gitlab:
+1. Clone the Emumba Plugin repository from Github:
 
    ```bash
-   git clone https://github.com/emumba-com/emumba-nx-boilerplate-plugin.git
+   git clone https://github.com/EmumbaOrg/emumba-nx-boilerplate-plugin.git
    ```
-2. Setup Verdaccio in the project for local publishing
+
+2. Install project dependencies:
+
+   ```bash
+   npm install
+   ```
+ 
+3. Setup Verdaccio in the project for local publishing
 
    ```bash
    npx nx g setup-verdaccio
-   ```
-
-3. Install project dependencies:
-
-   ```bash
-   npm i
    ```
    
 For development/testing purposes, comment the line with @emumbaorg:registry in the .npmrc files located at project root, /packages/emumbaplugin and /packages/emumba-project-setup.
@@ -42,9 +43,28 @@ For development/testing purposes, comment the line with @emumbaorg:registry in t
    npx nx local-registry
    ```
 
-5. In a second terminal, publish the package locally using verdaccio (e.g., version 1.0.0):
+Now, by default, Verdaccio is running at http://localhost:4873/. Clicking this link will redirect you to Verdaccio.
+
+5. Open a second terminal and add a user to Verdaccio. In the second terminal, run:
+
+   ```bash
+   npm adduser --registry http://localhost:4873
+   ```
+
+6. Log in with the user you created. In the second terminal, run:
+
+   ```bash
+   npm login --registry http://localhost:4873
+   ```
+
+7. In a second terminal, publish the package locally using verdaccio (e.g., version 1.0.0):
    ```bash
    npx nx run-many -t publish --ver 1.0.0 --tag latest
+   ```
+
+Note: Remember to change the version number each time you publish to Verdaccio. When you are done with testing, make sure to set your registry back to the original because your registry is set to local Verdaccio. Use the following command:
+   ```bash
+   npm set registry https://registry.npmjs.org/
    ```
 
 ## Usage
