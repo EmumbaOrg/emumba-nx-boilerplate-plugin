@@ -16,6 +16,28 @@ const execAsync = promisify(exec);
 let dependencies = {};
 let devDependencies = {};
 
+//Adding historyApiFallback: true inside webpack config file to fix browser router
+//For more clarification visit: https://webpack.js.org/configuration/dev-server/
+function modifyWebpackConfig(tree: Tree, projectRoot: string) {
+  const webpackConfigPath = path.join(projectRoot, 'webpack.config.js');
+  const content = tree.read(webpackConfigPath, 'utf-8');
+
+  if (content) {
+    const modifiedContent = content.replace(
+      'port: 4200,',
+      `port: 4200,\n      historyApiFallback: true,`
+    );
+
+    tree.write(webpackConfigPath, modifiedContent);
+
+    tree.listChanges().push({
+      path: webpackConfigPath,
+      type: 'UPDATE',
+      content: Buffer.from(modifiedContent, 'utf-8'),
+    });
+  }
+}
+
 // Function to fetch the latest version of a npm package
 async function fetchLatestPackageVersion(packageName: string): Promise<string> {
   try {
@@ -91,6 +113,10 @@ export async function presetGenerator(
     projectSrc,
     options
   );
+  //Calling modifyWebpackConfig after files are genarted
+  if (options.buildTool === 'webpack') {
+    modifyWebpackConfig(tree, projectRoot);
+  }
 
   // Handle UI library options.
   if (options.uiLibrary === 'antd') {
